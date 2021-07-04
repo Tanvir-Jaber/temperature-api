@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Find</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control location" placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button type="button" id = "search" class="btn btn-danger">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img id="image" src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+            <h1 style="text-transform: capitalize;" id="city-search"></h1>
+            <h3><span id="degree"></span>&deg;C</h3>
+            <h1 id="lead" class="lead"></h1>
+        </div>
+    </div>
+    <script>
+        
+        document.getElementById("search").addEventListener("click",function(){
+            const location = this.parentElement.previousElementSibling.value;
+            const url = "http://api.openweathermap.org/data/2.5/weather?q="+ `${location}` +"&appid=82c8fbfff81660d58b8dacc53591c5db"
+            fetch(url)
+            .then(res => res.json())
+            .then(data =>{
+                // const num =  data.main.temp - 273.15;
+                document.getElementById("city-search").innerText = location;
+                document.getElementById("degree").innerText = (data.main.temp - 273.15).toFixed(2);
+                document.getElementById("lead").innerText = data.weather[0].main;
+                this.parentElement.previousElementSibling.value = "";
+                //console.log(document.getElementById("image").setAttribute("src","https://png.pngtree.com/png-clipart/20190515/original/pngtree-beautiful-cool-cartoon-hand-painted-rain-water-droplets-clouds-png-image_3593447.jpg"))
+            })
+            .catch(error => console.log(error))
+        
+        });
+    </script>
+</body>
+
+</html>
